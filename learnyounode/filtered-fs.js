@@ -1,8 +1,10 @@
 var fs = require('fs');
-fs.readFile(process.argv[2], function (err, data) {
-  if (err) throw err;
-  content = data.toString();
-  console.log(content.split("\n").length - 1);
+var path = process.argv[2];
+var ext = process.argv[3];
+fs.readdir(path,function(err, files){
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].split('.')[1] == ext) console.log(files[i]);
+  };
 });
 
 /*
@@ -11,12 +13,13 @@ Here's the official solution is if you want to compare notes:
 ────────────────────────────────────────────────────────────────────────────────
 
     var fs = require('fs')
-    var file = process.argv[2]
+    var path = require('path')
 
-    fs.readFile(file, function (err, contents) {
-      // fs.readFile(file, 'utf8', callback) can also be used
-      var lines = contents.toString().split('\n').length - 1
-      console.log(lines)
+    fs.readdir(process.argv[2], function (err, list) {
+      list.forEach(function (file) {
+        if (path.extname(file) === '.' + process.argv[3])
+          console.log(file)
+      })
     })
 
 ────────────────────────────────────────────────────────────────────────────────
